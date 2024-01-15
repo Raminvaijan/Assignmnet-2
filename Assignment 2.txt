@@ -1,0 +1,372 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+              backgroundColor: Color(0xffE5E5E5), elevation: 0),
+          scaffoldBackgroundColor: const Color(0xffE5E5E5)),
+      debugShowCheckedModeBanner: false,
+      title: 'Assignment APP',
+      home: const HomeScreen(),
+    );
+  }
+}
+
+List MyItems = [
+  {
+    "ProductName": "Pullover",
+    "ProductColor": "Black",
+    "ProductSize": "L",
+    "ProductPrice": 40,
+    "Count": 1,
+    "ProductImage": "image/picp.png"
+  },
+  {
+    "ProductName": "T-Shirt",
+    "ProductColor": "Gray",
+    "ProductSize": "L",
+    "ProductPrice": 50,
+    "Count": 1,
+    "ProductImage": "image/pict.png"
+  },
+  {
+    "ProductName": "Sport Dress",
+    "ProductColor": "Black",
+    "ProductSize": " M",
+    "ProductPrice": 35,
+    "Count": 1,
+    "ProductImage": "image/pics.png"
+  },
+];
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int get totalAmount {
+    return MyItems.fold<int>(
+        0,
+            (total, product) =>
+        total + product['ProductPrice'] * product['Count'] as int);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var dialogBox = Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      child: SizedBox(
+        height: 300.0,
+        width: 300.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                'Congratulation!',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Text(
+                'You have added',
+                style: TextStyle(color: Colors.black, fontSize: 16),
+              ),
+            ),
+            const Text(
+              '5',
+              style: TextStyle(color: Colors.black, fontSize: 16),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Text(
+                'T-shirt on your bag',
+                style: TextStyle(color: Colors.black, fontSize: 16),
+              ),
+            ),
+            const Padding(padding: EdgeInsets.only(top: 30.0)),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.yellowAccent,
+                  minimumSize: const Size(double.infinity, 44),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(30),
+                    ),
+                  ),
+                ),
+                child: const Text(
+                  'OKAY',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+    return Scaffold(
+      appBar: AppBar(
+        actions: const [
+          Icon(
+            Icons.search,
+            color: Colors.black,
+          ),
+          SizedBox(
+            width: 10,
+          )
+        ],
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Text(
+              'My Bag',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: MyItems.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    MyItems[index]['ProductImage'].toString(),
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 10,
+                                          right: 10,
+                                          left: 10,
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  MyItems[index]['ProductName']
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.w700,
+                                                      letterSpacing: 0.5),
+                                                ),
+                                                const Icon(
+                                                  Icons.more_vert,
+                                                  size: 20,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Color: ${MyItems[index]['ProductColor'].toString()}',
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w500,
+                                                      letterSpacing: 0),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  'Size: ${MyItems[index]['ProductSize'].toString()}',
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight: FontWeight.w500,
+                                                      letterSpacing: 0),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    InkWell(
+                                                      child: Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        decoration: const BoxDecoration(
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                  color: Colors.grey,
+                                                                  blurRadius: 2,
+                                                                  spreadRadius: 1),
+                                                            ],
+                                                            color: Colors.white,
+                                                            shape: BoxShape.circle),
+                                                        child: const Icon(
+                                                            CupertinoIcons.minus),
+                                                      ),
+                                                      onTap: () {
+                                                        if (MyItems[index]['Count'] >
+                                                            1) {
+                                                          MyItems[index]['Count'] -= 1;
+                                                          setState(() {});
+                                                        }
+                                                      },
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    Text(
+                                                      MyItems[index]['Count']
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w500),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    InkWell(
+                                                      child: Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        decoration: const BoxDecoration(
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                  color: Colors.grey,
+                                                                  blurRadius: 5,
+                                                                  spreadRadius: 1)
+                                                            ],
+                                                            color: Colors.white,
+                                                            shape: BoxShape.circle),
+                                                        child:
+                                                        Icon(CupertinoIcons.plus),
+                                                      ),
+                                                      onTap: () {
+                                                        if (MyItems[index]['Count'] ==
+                                                            4) {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (context) =>
+                                                              dialogBox);
+                                                        }
+                                                        MyItems[index]['Count'] += 1;
+                                                        setState(() {});
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      "${MyItems[index]['ProductPrice'] * MyItems[index]['Count']}\$",
+                                                      style: const TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight: FontWeight.w500),
+                                                    )
+                                                  ],
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                ],
+                              )
+                            ],
+                          )),
+                    );
+                  })),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Amount',
+                  style: TextStyle(color: Colors.black.withOpacity(0.8)),
+                ),
+                Text(
+                  '${totalAmount.toString()}\$',
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.yellowAccent,
+                elevation: 5,
+                minimumSize: const Size(double.infinity, 44),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30),
+                  ),
+                ),
+              ),
+              onPressed: () {},
+              child: const Text(
+                'CHECK OUT',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
